@@ -7,4 +7,4 @@
 - [Лента 1](https://lenta.ru/news/2023/11/12/prashcha/)
 - [Лента 2](https://lenta.ru/news/2023/11/12/nedostatki/)
 
-Посмотреть на результат парсинга можно [тут]()
+Посмотреть на результат парсинга можно [тут](https://github.com/Mavericketoff/web-parser/tree/result/generated)
