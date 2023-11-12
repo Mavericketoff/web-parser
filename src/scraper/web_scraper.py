@@ -106,10 +106,20 @@ class WebScraper:
             formatted_text (str): The formatted text.
             output_file (str): The output file path.
         """
-        if content is None:
-            print("Ошибка!")
-        else:
-            with open(os.path.join(os.getcwd(), output_file), 'w', encoding='utf-8') as f:
+        try:
+            # Extract the directory from the output_file
+            output_directory = os.path.dirname(output_file)
+
+            # Check if the directory exists, create it if not
+            if not os.path.exists(output_directory):
+                os.makedirs(output_directory)
+
+            # Write the content to the file
+            with open(output_file, 'w', encoding='utf-8') as f:
                 print("Заголовок: {}".format(content.title), file=f)
                 print("\nАдрес    : {}\n".format(content.url), file=f)
                 print(formatted_text, file=f)
+
+        except Exception as e:
+            print(f"Произошла ошибка при сохранении файла: {e}")
+
