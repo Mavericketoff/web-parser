@@ -1,5 +1,7 @@
 from scraper.formatting import generate_output_filename
-from scraper.web_scraper import WebScraper
+from scraper.web_scraper import WebScraper, Content
+from colorama import Fore, Style
+from art import text2art
 import json
 import argparse
 
@@ -51,8 +53,22 @@ def main():
         output_folder='generated'
     )
     scraper.save_to_file(content, formatted_text, output_file)
+    author(content, formatted_text, output_file)
+
+
+def author(content: Content,
+           formatted_text: str,
+           output_file: str
+           ) -> None:
+    # Добавление цвета к выводу с помощью colorama
+    print(f"{Fore.BLUE}Заголовок: {content.title}{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Адрес    : {content.url}\n{Style.RESET_ALL}")
+    print(formatted_text)
+
+    ascii_art = text2art("Web Scraper")
+    print(f"\n{Fore.LIGHTMAGENTA_EX}{ascii_art}{Style.RESET_ALL}")
+    print(f"\n{Fore.LIGHTMAGENTA_EX}By: Mavericketoff\n")
 
 
 if __name__ == '__main__':
     main()
-
