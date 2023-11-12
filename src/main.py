@@ -2,8 +2,7 @@ from scraper.formatting import generate_output_filename
 from scraper.web_scraper import WebScraper, Content
 from colorama import Fore, Style
 from art import text2art
-import json
-import argparse
+import json, argparse, requests
 
 
 def parse_command_line_arguments() -> argparse.Namespace:
@@ -42,18 +41,23 @@ def load_config(config_file: str) -> dict:
 
 
 def main():
-    args = parse_command_line_arguments()
-    config = load_config(args.config)
-    scraper = WebScraper(args.url, config)
-    content = scraper.extract_text()
-    formatted_text = scraper.format_text(content.body)
-    output_file = generate_output_filename(
-        args.url,
-        config.get("output_format", "txt"),
-        output_folder='generated'
-    )
-    scraper.save_to_file(content, formatted_text, output_file)
-    author(content, formatted_text, output_file)
+    try:
+        args = parse_command_line_arguments()
+        config = load_config(args.config)
+        scraper = WebScraper(args.url, config)
+        content = scraper.extract_text()
+        formatted_text = scraper.format_text(content.body)
+        output_file = generate_output_filename(
+            args.url,
+            config.get("output_format", "txt"),
+            output_folder='generated'
+        )
+        scraper.save_to_file(content, formatted_text, output_file)
+        author(content, formatted_text, output_file)
+    except requests.RequestException as e:
+        print(f"Ошибка при запросе к веб-странице: {e}")
+    except Exception as e:
+        print(f"Неожиданная ошибка: {e}")
 
 
 def author(content: Content,

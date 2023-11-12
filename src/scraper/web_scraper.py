@@ -31,8 +31,16 @@ class WebScraper:
             config (dict): The configuration settings.
         """
         self.url = url
-        self.html = self.get_html()
         self.config = config
+
+        try:
+            self.html = self.get_html()
+        except requests.RequestException as e:
+            print(f"Ошибка при создании объекта WebScrapper: {e}")
+            raise
+        except Exception as e:
+            print(f"Неожиданная ошибка при создании объекта WebScrapper: {e}")
+            raise
 
     def get_html(self) -> str:
         """
@@ -41,8 +49,13 @@ class WebScraper:
         Returns:
             str: The HTML content.
         """
-        response = requests.get(self.url)
-        return response.text
+        try:
+            response = requests.get(self.url)
+            response.raise_for_status()
+            return response.text
+        except requests.RequestException as e:
+            print(f"Ошибка при получении HTML: {e}")
+            raise
 
     def extract_text(self) -> Content:
         """
@@ -120,6 +133,8 @@ class WebScraper:
                 print("\nАдрес    : {}\n".format(content.url), file=f)
                 print(formatted_text, file=f)
 
+        except FileNotFoundError as e:
+            print(f"Ошибка: {e}. Убедитесь, что папка 'generated' существует.")
         except Exception as e:
             print(f"Произошла ошибка при сохранении файла: {e}")
 
