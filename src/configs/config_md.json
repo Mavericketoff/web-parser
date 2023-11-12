@@ -1,0 +1,6 @@
+{
+  "line_length": 100,
+  "paragraph_spacing": false,
+  "link_format": "[{url}]",
+  "output_format": "markdown"
+}

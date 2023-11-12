@@ -1,0 +1,7 @@
+{
+  "line_length": 80,
+  "paragraph_spacing": true,
+  "link_format": "[{url}]",
+  "output_format": "txt"
+}
+
